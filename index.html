@@ -8,11 +8,75 @@
   <title>Cult of the Lamb - Follower Tracker</title>
 </head>
 
-<body class="p-8 flex flex-col items-center justify-center min-h-screen gap-4">
-  <div id="app" class="flex flex-col items-center gap-4">
+
+<body class="p-16 flex flex-col min-h-screen gap-4">
+  <div id="app" class="flex flex-col gap-4">
     <h1 class="text-3xl font-bold text-primary">Cult of the Lamb Follower Tracker</h1>
 
-    <button class="btn btn-primary">Add Follower</button>
+    <button id="addFollowerButton" class="btn btn-primary">Add Follower</button>
+
+<!-- 
+****************************************************************************  
+************************Follower List****************************************
+****************************************************************************  
+ -->
+    <ul id="followerList" class="list-none p-0 w-full max-w-md">
+      <!-- Followers will be dynamically added here -->
+    </ul>
+
+
+    <!-- 
+****************************************************************************  
+************************Add Follower****************************************
+****************************************************************************  
+ -->
+  
+  <dialog id="addFollowerModal" class="modal">
+    <div class="modal-box">
+    <h3 class="font-bold text-lg">Add Follower</h3>
+
+    <form id="addFollowerForm" class="flex flex-col gap-2">
+
+      <div id="followerForm" class="form-control">
+        <label class="label">
+          <span class="label-text">Follower Name</span>
+          <input type="text" name="name" placeholder="Follower Name" class="input input-bordered w-full" required minlength="1" maxlength="30" />
+        </label>
+        <label class="label">
+          <span class="label-text">Follower Level</span>
+          <input type="number" name="level" placeholder="Level" class="input input-bordered w-full" min="1" value="1" required />
+        </label>
+        <label class="label">
+          <span class="label-text">Skin</span>
+          <input type="text" name="skin" placeholder="Skin" class="input input-bordered w-full" required maxlength="30" />
+        </label>
+        <label class="label">
+          <span class="label-text">Outfit</span>
+          <input type="text" name="outfit" placeholder="Outfit" class="input input-bordered w-full" required maxlength="30" />
+        </label>
+        <label class="label">
+          <span class="label-text">Necklace</span>
+          <input type="text" name="necklaceId" placeholder="Necklace" class="input input-bordered w-full" maxlength="30" />
+        </label>
+        <label class="label">
+          <span class="label-text">Demon Type</span>
+          <input type="text" name="demonId" placeholder="Demon Type" class="input input-bordered w-full" maxlength="30" />
+        </label>
+  
+        <label class="label cursor-pointer justify-start gap-2">
+          <input type="checkbox" name="isFavorite" class="checkbox" /> Favorite
+        </label>
+        <label class="label cursor-pointer justify-start gap-2">
+          <input type="checkbox" name="isDead" class="checkbox" /> Dead
+        </label>
+      </div>
+
+  <div class="modal-action">
+    <button type="button" id="cancelAddFollowerButton" class="btn">Cancel</button>
+    <button type="submit" class="btn btn-primary">Submit</button>
+  </div>
+</form>
+
 
 
   </div>

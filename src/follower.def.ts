@@ -9,6 +9,7 @@ export interface Follower {
   outfit: string;         // e.g. "Cult Robes", "Warrior Garb"
   isMarried: boolean;
   isFavorite: boolean;
+  isDead: boolean;
   role: CultRole;
   demonId: string | null;
   necklaceId: string | null;  // Linked to a Gift id
