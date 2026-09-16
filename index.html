@@ -38,53 +38,30 @@
 
     <form id="addFollowerForm" class="flex flex-col gap-2">
 
-      <div id="followerForm" class="form-control flex flex-col">
-        <label class="input basis-full">
+        <div id="followerForm" class="fieldset">
+        <label class="flex flex-col gap-1">
           <span class="label">Follower Name</span>
-          <input type="text" name="name" placeholder="Follower Name" class="input input-bordered w-full" required minlength="1" maxlength="30" />
+          <input type="text" name="name" placeholder="Follower Name" class="input w-full" required minlength="1" maxlength="30" />
         </label>
-        <label class="input basis-full">
+        <label class="flex flex-col gap-1">
           <span class="label">Follower Level</span>
-          <input type="number" name="level" placeholder="Level" class="input input-bordered w-full" min="1" value="1" required />
+          <input type="number" name="level" placeholder="Level" class="input w-full" min="1" max="10" value="1" required />
         </label>
-        <label class="floating-label">
-          <span>Skin</span>
-          <input type="text" name="skin" placeholder="Skin" class="input input-bordered w-full" required maxlength="30" />
+        <label class="flex flex-col gap-1">
+          <span class="label">Skin</span>
+          <input type="text" name="skin" placeholder="Skin" class="input w-full" required maxlength="30" />
         </label>
-        <label class="input basis-full">
+        <label class="flex flex-col gap-1">
           <span class="label">Outfit</span>
-          <input type="text" name="outfit" placeholder="Outfit" class="input input-bordered w-full" required maxlength="30" />
+          <input type="text" name="outfit" placeholder="Outfit" class="input w-full" required maxlength="30" />
         </label>
-        <fieldset class="fieldset basis-full m-4">
-          <select id="necklaceSelect" name="necklaceId" class="select w-full input-bordered w-full">
-            <option disabled selected>Select a Necklace</option>
-            <!-- Necklace options will be dynamically added here -->
+        <label class="flex flex-col gap-1">
+          <span class="label">Necklace</span>
+          <select id="necklaceSelect" name="necklaceId" class="select w-full">
+            <option value="">No necklace</option>
+            <!-- Necklace options are added by main.ts -->
           </select>
-        </fieldset>
-        
-        <label class="input basis-full">
+        </label>
+        <label class="flex flex-col gap-1">
           <span class="label">Demon Type</span>
-          <input type="text" name="demonId" placeholder="Demon Type" class="input input-bordered w-full" maxlength="30" />
-        </label>
-  
-        <label class="label cursor-pointer justify-start gap-2">
-          <input type="checkbox" name="isFavorite" class="checkbox" /> Favorite
-        </label>
-        <label class="label cursor-pointer justify-start gap-2">
-          <input type="checkbox" name="isDead" class="checkbox" /> Dead
-        </label>
-      </div>
-
-  <div class="modal-action">
-    <button type="button" id="cancelAddFollowerButton" class="btn">Cancel</button>
-    <button type="submit" class="btn btn-primary">Submit</button>
-  </div>
-</form>
-
-
-
-  </div>
-  <script type="module" src="/src/main.ts"></script>
-</body>
-
-</html>
+          <input type="text" name="demonId" placeholder="Demon Type" class="input w-full" maxlength="30" />
