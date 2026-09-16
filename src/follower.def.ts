@@ -16,3 +16,10 @@ export interface Follower {
   traits: string[];       // List of traits like ["Faithful", "Germaphobe"]
   createdAt: number;      // Timestamp
 }
+
+export interface CatalogItem {
+  id: string;
+  name: string;
+  description: string;
+  imageUrl: string;
+}
