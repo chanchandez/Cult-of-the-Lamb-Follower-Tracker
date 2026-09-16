@@ -128,6 +128,11 @@ export const NECKLACES = [
   },
 ] as const satisfies readonly Necklace[];
 
+export type NecklaceId = (typeof NECKLACES)[number]['id'];
+
+export function isNecklaceId(value: string): value is NecklaceId {
+  return NECKLACES.some((necklace) => necklace.id === value);
+}
 
 export function findNecklace(id: string | null): Necklace | undefined {
   return NECKLACES.find((necklace) => necklace.id === id);

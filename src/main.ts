@@ -1,10 +1,12 @@
 import './style.css'
 import type { Follower } from './follower.def'  
 import { getFollowers, addFollower, removeFollower } from './storage/followerRepo'
+import { NECKLACES, isNecklaceId, type NecklaceId } from './data/necklaces';
 
 const addFollowerModal = document.getElementById('addFollowerModal') as HTMLDialogElement;
 const addFollowerForm = document.getElementById('addFollowerForm') as HTMLFormElement;
 const followerList = document.getElementById('followerList') as HTMLUListElement;
+const necklaceSelect = document.getElementById('necklaceSelect') as HTMLSelectElement;
 
 console.log('Cult of the Lamb Follower Tracker ready!')
 
@@ -30,7 +32,7 @@ addFollowerForm.addEventListener('submit', (event) => {
     level: Number(data.get('level')),
     skin: String(data.get('skin')).trim(),
     outfit: String(data.get('outfit')).trim(),
-    necklaceId: String(data.get('necklaceId')).trim() || null,
+    necklaceId: readNecklaceId(data),
     demonId: String(data.get('demonId')).trim() || null,
     isMarried: data.has('isMarried'),
     isFavorite: data.has('isFavorite'),
@@ -74,5 +76,20 @@ function renderFollower(follower: Follower): HTMLLIElement {
   return item;
 }
 
+function populateNecklaceSelect(): void {
+  for (const necklace of NECKLACES) {
+    const option = document.createElement('option');
+    option.value = necklace.id;
+    option.textContent = necklace.name;
+    necklaceSelect.append(option);
+  }
+}
+
+function readNecklaceId(data: FormData): NecklaceId | null {
+  const raw = String(data.get('necklaceId'));
+  return isNecklaceId(raw) ? raw : null;
+}
+
+populateNecklaceSelect();
 render();
 
