@@ -38,32 +38,32 @@
 
     <form id="addFollowerForm" class="flex flex-col gap-2">
 
-      <div id="followerForm" class="form-control">
-        <label class="label">
-          <span class="label-text">Follower Name</span>
+      <div id="followerForm" class="form-control flex flex-col">
+        <label class="input basis-full">
+          <span class="label">Follower Name</span>
           <input type="text" name="name" placeholder="Follower Name" class="input input-bordered w-full" required minlength="1" maxlength="30" />
         </label>
-        <label class="label">
-          <span class="label-text">Follower Level</span>
+        <label class="input basis-full">
+          <span class="label">Follower Level</span>
           <input type="number" name="level" placeholder="Level" class="input input-bordered w-full" min="1" value="1" required />
         </label>
-        <label class="label">
-          <span class="label-text">Skin</span>
+        <label class="floating-label">
+          <span>Skin</span>
           <input type="text" name="skin" placeholder="Skin" class="input input-bordered w-full" required maxlength="30" />
         </label>
-        <label class="label">
-          <span class="label-text">Outfit</span>
+        <label class="input basis-full">
+          <span class="label">Outfit</span>
           <input type="text" name="outfit" placeholder="Outfit" class="input input-bordered w-full" required maxlength="30" />
         </label>
-        <label class="label">
-          <span class="label-text">Necklace</span>
-          <select id="necklaceSelect" name="necklaceId" class="input input-bordered w-full">
-            <option value="">Select a Necklace</option>
+        <fieldset class="fieldset basis-full m-4">
+          <select id="necklaceSelect" name="necklaceId" class="select w-full input-bordered w-full">
+            <option disabled selected>Select a Necklace</option>
             <!-- Necklace options will be dynamically added here -->
           </select>
-        </label>
-        <label class="label">
-          <span class="label-text">Demon Type</span>
+        </fieldset>
+        
+        <label class="input basis-full">
+          <span class="label">Demon Type</span>
           <input type="text" name="demonId" placeholder="Demon Type" class="input input-bordered w-full" maxlength="30" />
         </label>
   
