@@ -33,35 +33,55 @@
  -->
   
   <dialog id="addFollowerModal" class="modal">
-    <div class="modal-box">
-    <h3 class="font-bold text-lg">Add Follower</h3>
+    <div class="modal-box w-full max-w-lg">
+    <h3 class="text-xl font-bold mb-1 text-left">Add Follower</h3>
 
     <form id="addFollowerForm" class="flex flex-col gap-2">
-
-        <div id="followerForm" class="fieldset">
-        <label class="flex flex-col gap-1">
+        <label class="floating-label w-full m-2">
           <span class="label">Follower Name</span>
           <input type="text" name="name" placeholder="Follower Name" class="input w-full" required minlength="1" maxlength="30" />
         </label>
-        <label class="flex flex-col gap-1">
+        <label class="input w-full m-2">
           <span class="label">Follower Level</span>
           <input type="number" name="level" placeholder="Level" class="input w-full" min="1" max="10" value="1" required />
         </label>
-        <label class="flex flex-col gap-1">
+        <label class="floating-label w-full m-2">
           <span class="label">Skin</span>
           <input type="text" name="skin" placeholder="Skin" class="input w-full" required maxlength="30" />
         </label>
-        <label class="flex flex-col gap-1">
+        <label class="floating-label w-full m-2">
           <span class="label">Outfit</span>
           <input type="text" name="outfit" placeholder="Outfit" class="input w-full" required maxlength="30" />
         </label>
-        <label class="flex flex-col gap-1">
-          <span class="label">Necklace</span>
+        <label class="floating-label w-full m-2">
           <select id="necklaceSelect" name="necklaceId" class="select w-full">
             <option value="">No necklace</option>
             <!-- Necklace options are added by main.ts -->
           </select>
         </label>
-        <label class="flex flex-col gap-1">
-          <span class="label">Demon Type</span>
-          <input type="text" name="demonId" placeholder="Demon Type" class="input w-full" maxlength="30" />
+        <label class="floating-label w-full m-2">
+          <select id="demonSelect" name="demonId" class="select w-full">
+            <option value="">Select a demon</option>
+            <!-- Demon options are added by main.ts -->
+          </select>
+        </label>
+        <label class="label cursor-pointer justify-start gap-2">
+          
+          <input type="checkbox" name="isFavorite" class="checkbox" /> Favorite
+        </label>
+        <label class="label cursor-pointer justify-start gap-2">
+          <input type="checkbox" name="isDead" class="checkbox" /> Dead
+        </label>
+      </div>
+
+  <div class="modal-action">
+    <button type="button" id="cancelAddFollowerButton" class="btn">Cancel</button>
+    <button type="submit" class="btn btn-primary">Submit</button>
+  </div>
+</form>
+
+  <script type="module" src="/src/main.ts"></script>
+</body>
+
+</html>
+       

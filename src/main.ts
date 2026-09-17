@@ -2,11 +2,14 @@ import './style.css'
 import type { Follower } from './follower.def'  
 import { getFollowers, addFollower, removeFollower } from './storage/followerRepo'
 import { NECKLACES, isNecklaceId, type NecklaceId } from './data/necklaces';
+import { DEMONS, type DemonId } from './data/demons';
+
 
 const addFollowerModal = document.getElementById('addFollowerModal') as HTMLDialogElement;
 const addFollowerForm = document.getElementById('addFollowerForm') as HTMLFormElement;
 const followerList = document.getElementById('followerList') as HTMLUListElement;
 const necklaceSelect = document.getElementById('necklaceSelect') as HTMLSelectElement;
+const demonSelect = document.getElementById('demonSelect') as HTMLSelectElement;
 
 console.log('Cult of the Lamb Follower Tracker ready!')
 
@@ -60,8 +63,10 @@ function renderFollower(follower: Follower): HTMLLIElement {
   const item = document.createElement('li');
   item.className = 'card bg-base-200 p-4 flex flex-row items-center justify-between';
 
-  const label = document.createElement('span');
+  const label = document.createElement('div');
   label.textContent = `${follower.name} · Lv ${follower.level} · ${follower.skin}`;
+    label.append(imgsrc(DEMONS))
+
 
   const deleteBtn = document.createElement('button');
   deleteBtn.type = 'button';
@@ -76,20 +81,39 @@ function renderFollower(follower: Follower): HTMLLIElement {
   return item;
 }
 
-function populateNecklaceSelect(): void {
-  for (const necklace of NECKLACES) {
-    const option = document.createElement('option');
-    option.value = necklace.id;
-    option.textContent = necklace.name;
-    necklaceSelect.append(option);
-  }
+//Necklaces
+    function populateNecklaceSelect(): void {
+    for (const necklace of NECKLACES) {
+        const option = document.createElement('option');
+        option.value = necklace.id;
+        option.textContent = necklace.name;
+        necklaceSelect.append(option);
+    }
+    }
+
+    function readNecklaceId(data: FormData): NecklaceId | null {
+    const raw = String(data.get('necklaceId'));
+    return isNecklaceId(raw) ? raw : null;
 }
 
-function readNecklaceId(data: FormData): NecklaceId | null {
-  const raw = String(data.get('necklaceId'));
-  return isNecklaceId(raw) ? raw : null;
-}
+//demons
+    function populateDemonSelect(): void {
+    // Implementation for populating demon select options
+    for (const demon of DEMONS) {
+        const option = document.createElement('option');
+        option.value = demon.id;
+        option.textContent = demon.name;
+        demonSelect.append(option);
+    }   
+    }
+
+    function readDemonId(data: FormData): DemonId | null {
+    const raw = String(data.get('demonId'));
+    return DEMONS.some(demon => demon.id === raw) ? raw as DemonId : null;
+    }
+
 
 populateNecklaceSelect();
+populateDemonSelect();  
 render();
 
