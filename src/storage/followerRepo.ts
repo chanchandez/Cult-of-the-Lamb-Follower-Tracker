@@ -30,9 +30,9 @@ export function addFollower ( newfollower : Follower ): void {
   saveFollowers();
 }
 
-export function removeFollower ( followerId : string ): void {
-  const index = followers.findIndex(follower => follower.id === followerId);
-    if (index === -1) return;
+export function removeFollower(followerId: string): void {
+  const index = followers.findIndex((follower) => follower.id === followerId);
+  if (index === -1) return;
   followers.splice(index, 1);
   saveFollowers();
 }

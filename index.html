@@ -2,9 +2,10 @@
 <html lang="en" data-theme="luxury">
 
 <head>
-  <meta charset="UTF-8" />
+<meta charset="UTF-8" />
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="referrer" content="no-referrer" />
   <title>Cult of the Lamb - Follower Tracker</title>
 </head>
 
@@ -43,12 +44,12 @@
         </label>
         <label class="input w-full m-2">
           <span class="label">Follower Level</span>
-          <input type="number" name="level" placeholder="Level" class="input w-full" min="1" max="10" value="1" required />
+          <input type="number" name="level" placeholder="Level" class="input w-full" min="1" max="50" value="1" required />
         </label>
-        <label class="floating-label w-full m-2">
-          <span class="label">Skin</span>
-          <input type="text" name="skin" placeholder="Skin" class="input w-full" required maxlength="30" />
-        </label>
+        <fieldset class="flex flex-col gap-1">
+  <legend class="label">Skin</legend>
+  <div id="skinPicker" class="grid grid-cols-4 gap-2 max-h-64 overflow-y-auto p-1"></div>
+</fieldset>
         <label class="floating-label w-full m-2">
           <span class="label">Outfit</span>
           <input type="text" name="outfit" placeholder="Outfit" class="input w-full" required maxlength="30" />
