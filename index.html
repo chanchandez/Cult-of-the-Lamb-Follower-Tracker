@@ -2,9 +2,10 @@
 <html lang="en" data-theme="luxury">
 
 <head>
-  <meta charset="UTF-8" />
+<meta charset="UTF-8" />
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="referrer" content="no-referrer" />
   <title>Cult of the Lamb - Follower Tracker</title>
 </head>
 
@@ -33,42 +34,44 @@
  -->
   
   <dialog id="addFollowerModal" class="modal">
-    <div class="modal-box">
-    <h3 class="font-bold text-lg">Add Follower</h3>
+    <div class="modal-box w-full max-w-lg">
+    <h3 class="text-xl font-bold mb-1 text-left">Add Follower</h3>
 
     <form id="addFollowerForm" class="flex flex-col gap-2">
-
-      <div id="followerForm" class="fieldset">
-        <label class="label">
+        <label class="floating-label w-full m-2">
           <span class="label">Follower Name</span>
-          <input type="text" name="name" placeholder="Follower Name" class="input w-full" required minlength="1" maxlength="30" />
+          <input id="followername" type="text" name="name" placeholder="Follower Name" class="input w-full" required minlength="1" maxlength="30" />
         </label>
-        <label class="label">
+        <label class="input w-full m-2">
           <span class="label">Follower Level</span>
-          <input type="number" name="level" placeholder="Level" class="input w-full" min="1" value="1" required />
+          <input id="followerlevel" type="number" name="level" placeholder="Level" class="input w-full" min="1" max="50" value="1" required />
         </label>
-        <label class="label">
-          <span class="label">Skin</span>
-          <input type="text" name="skin" placeholder="Skin" class="input w-full" required maxlength="30" />
-        </label>
-        <label class="label">
+        <fieldset class="flex flex-col gap-1">
+  <legend class="label">Skin</legend>
+  <div id="skinPicker" class="grid grid-cols-4 gap-2 max-h-64 overflow-y-auto p-1"></div>
+</fieldset>
+        <label class="flex flex-col gap-1">
           <span class="label">Outfit</span>
-          <input type="text" name="outfit" placeholder="Outfit" class="input input-bordered w-full" required maxlength="30" />
+          <div id="outfitPicker" class="grid grid-cols-4 gap-2 max-h-64 overflow-y-auto p-1"></div>
         </label>
-        <label class="label">
-          <span class="label-text">Necklace</span>
-          <input type="text" name="necklaceId" placeholder="Necklace" class="input w-full" maxlength="30" />
+        <label class="floating-label w-full m-2">
+          <select id="necklaceSelect" name="necklaceId" class="select w-full">
+            <option value="">No necklace</option>
+            <!-- Necklace options are added by main.ts -->
+          </select>
         </label>
-        <label class="label">
-          <span class="label">Demon Type</span>
-          <input type="text" name="demonId" placeholder="Demon Type" class="input w-full" maxlength="30" />
+        <label class="floating-label w-full m-2">
+          <select id="demonSelect" name="demonId" class="select w-full">
+            <option value="">Select a demon</option>
+            <!-- Demon options are added by main.ts -->
+          </select>
         </label>
-  
         <label class="label cursor-pointer justify-start gap-2">
-          <input type="checkbox" name="isFavorite" class="checkbox" /> Favorite
+          
+          <input id="isFavorite" type="checkbox" name="isFavorite" class="checkbox" /> Favorite
         </label>
         <label class="label cursor-pointer justify-start gap-2">
-          <input type="checkbox" name="isDead" class="checkbox" /> Dead
+          <input id="isDead" type="checkbox" name="isDead" class="checkbox" /> Dead
         </label>
       </div>
 
@@ -78,10 +81,8 @@
   </div>
 </form>
 
-
-
-  </div>
   <script type="module" src="/src/main.ts"></script>
 </body>
 
 </html>
+       

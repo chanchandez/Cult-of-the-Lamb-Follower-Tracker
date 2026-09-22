@@ -1,4 +1,4 @@
-
+import type { NecklaceId } from './data/necklaces';
 export type CultRole = 'disciple' | 'loyalty_enforcer' | 'ritual_leader' | null;
 
 export interface Follower {
@@ -12,7 +12,15 @@ export interface Follower {
   isDead: boolean;
   role: CultRole;
   demonId: string | null;
-  necklaceId: string | null;  // Linked to a Gift id
+  necklaceId: NecklaceId | null;
+  // Linked to a Gift id
   traits: string[];       // List of traits like ["Faithful", "Germaphobe"]
   createdAt: number;      // Timestamp
+}
+
+export interface CatalogItem {
+  id: string;
+  name: string;
+  description: string;
+  imageUrl: string;
 }
