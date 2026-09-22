@@ -4,8 +4,10 @@ import { getFollowers, addFollower, removeFollower } from './storage/followerRep
 import { NECKLACES, isNecklaceId, type NecklaceId } from './data/necklaces';
 import { DEMONS, findDemon, isDemonId, type DemonId } from './data/demons';
 import { SKINS, findSkin, isSkinId, type SkinId } from './data/skins';
+import { OUTFITS, findOutfit, isOutfitId, type OutfitId } from './data/outfits';
 
 const skinPicker = document.getElementById('skinPicker') as HTMLDivElement;
+const outfitPicker = document.getElementById('outfitPicker') as HTMLDivElement;
 
 
 const addFollowerModal = document.getElementById('addFollowerModal') as HTMLDialogElement;
@@ -86,6 +88,41 @@ function renderFollower(follower: Follower): HTMLLIElement {
   const necklace = NECKLACES.find(n => n.id === follower.necklaceId);
   if (necklace) label.append(catalogImage(necklace)); 
 
+  const outfit = findOutfit(follower.outfit);
+  if (outfit) label.append(catalogImage(outfit));
+
+const editBtn = document.createElement('button');
+    editBtn.type = 'button';
+    editBtn.className = 'btn btn-sm btn-primary';
+    editBtn.textContent = 'Edit';
+
+editBtn.addEventListener('click', () => {
+  editBtn.addEventListener('click', () => addFollowerModal.showModal());
+      // Populate the form with the follower's data
+      const followerName = document.getElementById('followername') as HTMLUListElement;
+      const followerLevel = document.getElementById('followerlevel') as HTMLUListElement;
+      const followerSkin = document.getElementById(`skinPicker`) as HTMLInputElement;
+      const followerOutfit = document.getElementById('followeroutfit') as HTMLUListElement;
+      const followerNecklace = document.getElementById('necklaceSelect') as HTMLSelectElement;
+      const followerDemon = document.getElementById('demonSelect') as HTMLSelectElement;
+      const isMarriedCheckbox = document.getElementById('isMarried') as HTMLInputElement;
+      const isFavoriteCheckbox = document.getElementById('isFavorite') as HTMLInputElement;
+      const isDeadCheckbox = document.getElementById('isDead') as HTMLInputElement;
+
+      followerName.value = follower.name;
+      followerLevel.value = follower.level.toString();
+      followerSkin.value = follower.skin;
+      followerOutfit.value = follower.outfit;
+      followerNecklace.value = follower.necklaceId || '';
+      followerDemon.value = follower.demonId || '';
+      isMarriedCheckbox.checked = follower.isMarried;
+      isFavoriteCheckbox.checked = follower.isFavorite;
+      isDeadCheckbox.checked = follower.isDead;
+      
+    });
+
+
+
     const deleteBtn = document.createElement('button');
     deleteBtn.type = 'button';
     deleteBtn.className = 'btn btn-sm btn-error';
@@ -96,7 +133,7 @@ function renderFollower(follower: Follower): HTMLLIElement {
       render();
     });
 
-  item.append(label, deleteBtn);
+  item.append(label, editBtn, deleteBtn);
   return item;
 }
 
@@ -161,6 +198,36 @@ function renderFollower(follower: Follower): HTMLLIElement {
   }
 }
 
+//outfits
+function populateOutfitPicker(): void {
+  for (const outfit of OUTFITS) {
+    const tile = document.createElement('label');
+    tile.className =
+      'cursor-pointer rounded-lg border-2 border-transparent p-1 ' +
+      'has-[:checked]:border-primary has-[:checked]:bg-base-300';
+    tile.title = outfit.name;
+    
+    const radio = document.createElement('input');
+    radio.type = 'radio';
+    radio.name = 'outfit';
+    radio.value = outfit.id;
+    radio.required = true;
+    radio.className = 'sr-only';
+
+    const img = document.createElement('img');
+    img.src = outfit.imageUrl;
+    img.alt = outfit.name;
+    img.className = 'w-full aspect-square object-contain';
+
+    const caption = document.createElement('span');
+    caption.textContent = outfit.name;
+    caption.className = 'block text-center text-xs';
+
+    tile.append(radio, img, caption);
+    outfitPicker.append(tile);
+  }
+}
+
 function catalogImage(item: CatalogItem): HTMLImageElement {
   const img = document.createElement('img');
   img.src = item.imageUrl;
@@ -170,7 +237,7 @@ function catalogImage(item: CatalogItem): HTMLImageElement {
   return img;
 }
 
-
+populateOutfitPicker();
 populateSkinPicker();
 populateNecklaceSelect();
 populateDemonSelect();  

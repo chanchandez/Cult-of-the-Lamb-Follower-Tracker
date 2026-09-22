@@ -37,3 +37,9 @@ export function removeFollower(followerId: string): void {
   saveFollowers();
 }
 
+export function updateFollower(updatedFollower: Follower): void {
+  const index = followers.findIndex((follower) => follower.id === updatedFollower.id);
+  if (index === -1) return;
+  followers[index] = updatedFollower;
+  saveFollowers();
+}

@@ -40,19 +40,19 @@
     <form id="addFollowerForm" class="flex flex-col gap-2">
         <label class="floating-label w-full m-2">
           <span class="label">Follower Name</span>
-          <input type="text" name="name" placeholder="Follower Name" class="input w-full" required minlength="1" maxlength="30" />
+          <input id="followername" type="text" name="name" placeholder="Follower Name" class="input w-full" required minlength="1" maxlength="30" />
         </label>
         <label class="input w-full m-2">
           <span class="label">Follower Level</span>
-          <input type="number" name="level" placeholder="Level" class="input w-full" min="1" max="50" value="1" required />
+          <input id="followerlevel" type="number" name="level" placeholder="Level" class="input w-full" min="1" max="50" value="1" required />
         </label>
         <fieldset class="flex flex-col gap-1">
   <legend class="label">Skin</legend>
   <div id="skinPicker" class="grid grid-cols-4 gap-2 max-h-64 overflow-y-auto p-1"></div>
 </fieldset>
-        <label class="floating-label w-full m-2">
+        <label class="flex flex-col gap-1">
           <span class="label">Outfit</span>
-          <input type="text" name="outfit" placeholder="Outfit" class="input w-full" required maxlength="30" />
+          <div id="outfitPicker" class="grid grid-cols-4 gap-2 max-h-64 overflow-y-auto p-1"></div>
         </label>
         <label class="floating-label w-full m-2">
           <select id="necklaceSelect" name="necklaceId" class="select w-full">
@@ -68,10 +68,10 @@
         </label>
         <label class="label cursor-pointer justify-start gap-2">
           
-          <input type="checkbox" name="isFavorite" class="checkbox" /> Favorite
+          <input id="isFavorite" type="checkbox" name="isFavorite" class="checkbox" /> Favorite
         </label>
         <label class="label cursor-pointer justify-start gap-2">
-          <input type="checkbox" name="isDead" class="checkbox" /> Dead
+          <input id="isDead" type="checkbox" name="isDead" class="checkbox" /> Dead
         </label>
       </div>
 
