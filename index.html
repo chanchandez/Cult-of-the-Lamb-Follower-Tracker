@@ -6,15 +6,24 @@
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="referrer" content="no-referrer" />
+  <script src="https://kit.fontawesome.com/yourcode.js" crossorigin="anonymous"></script>
+
   <title>Cult of the Lamb - Follower Tracker</title>
 </head>
 
 
 <body class="p-48 flex flex-col min-h-screen gap-4">
   <div id="app" class="flex flex-col gap-4">
-    <h1 class="text-3xl font-bold text-primary">Cult of the Lamb Follower Tracker</h1>
+    <div class="flex gap-10 items-end">
+    <h1 class="text-xl font-bold text-primary">
+      <img src="https://static.wikia.nocookie.net/fictionalcrossover/images/d/de/Cult_of_the_Lamb_Logo.png/revision/latest/scale-to-width-down/1000?cb=20230626163616" class="max-w-xs h-auto">
+      Cult of the Lamb Follower Tracker
+    </h1>
+    <button id="addFollowerButton" class="btn btn-primary">+ Follower</button>
 
-    <button id="addFollowerButton" class="btn btn-primary">Add Follower</button>
+    </div>
+    
+    
 
 <!-- 
 ****************************************************************************  
@@ -56,7 +65,6 @@
         </label>
         <label class="floating-label w-full m-2">
           <select id="necklaceSelect" name="necklaceId" class="select w-full">
-            <option value="">No necklace</option>
             <!-- Necklace options are added by main.ts -->
           </select>
         </label>

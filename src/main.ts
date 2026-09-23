@@ -1,6 +1,7 @@
-import './style.css'
-import type { Follower } from './follower.def'  
-import { getFollowers, addFollower, removeFollower, updateFollower } from './storage/followerRepo'
+import './style.css';
+import 'bootstrap-icons/font/bootstrap-icons.css';
+import type { Follower } from './follower.def';  
+import { getFollowers, addFollower, removeFollower, updateFollower } from './storage/followerRepo';
 import { NECKLACES, isNecklaceId, type NecklaceId } from './data/necklaces';
 import { DEMONS, findDemon, isDemonId, type DemonId } from './data/demons';
 import { SKINS, findSkin, isSkinId, type SkinId } from './data/skins';
@@ -9,7 +10,6 @@ import { OUTFITS, findOutfit, isOutfitId, type OutfitId } from './data/outfits';
 let editingFollowerId: string | null = null;
 const skinPicker = document.getElementById('skinPicker') as HTMLDivElement;
 const outfitPicker = document.getElementById('outfitPicker') as HTMLDivElement;
-
 
 const addFollowerModal = document.getElementById('addFollowerModal') as HTMLDialogElement;
 const addFollowerForm = document.getElementById('addFollowerForm') as HTMLFormElement;
@@ -77,6 +77,7 @@ function fillForm(follower: Follower): void {
   (fields.namedItem('demonId') as HTMLSelectElement).value = follower.demonId ?? '';
   (fields.namedItem('isFavorite') as HTMLInputElement).checked = follower.isFavorite;
   (fields.namedItem('isDead') as HTMLInputElement).checked = follower.isDead;
+  (fields.namedItem('isMarried') as HTMLInputElement).checked = follower.isMarried;
 }
 
 //******************************************************* */
@@ -96,45 +97,75 @@ function renderFollower(follower: Follower): HTMLLIElement {
   item.className = 'card bg-base-200 p-4 flex flex-row items-center justify-between';
   
   const label = document.createElement('div');
-  label.textContent = `${follower.name} · Lv ${follower.level}`;
-
   const demon = findDemon(follower.demonId);
-  if (demon) label.append(catalogImage(demon));
-
   const skin = findSkin(follower.skin);
-  if (skin) label.append(catalogImage(skin));
-
   const necklace = NECKLACES.find(n => n.id === follower.necklaceId);
-  if (necklace) label.append(catalogImage(necklace)); 
+
 
   const outfit = findOutfit(follower.outfit);
-  if (outfit) label.append(catalogImage(outfit));
 
-const editBtn = document.createElement('button');
-    editBtn.type = 'button';
-    editBtn.className = 'btn btn-sm btn-primary';
-    editBtn.textContent = 'Edit';
+  const editBtn = document.createElement('button');
+      editBtn.type = 'button';
+      editBtn.className = 'btn btn-xs btn-primary';
+      editBtn.innerHTML = `<i class="bi bi-pencil"></i>`;
 
-editBtn.addEventListener('click', () => {
-  editingFollowerId = follower.id;
-  fillForm(follower);
-  addFollowerModal.showModal();
-});
-
+  editBtn.addEventListener('click', () => {
+    editingFollowerId = follower.id;
+    fillForm(follower);
+    addFollowerModal.showModal();
+  });
 
 
-    const deleteBtn = document.createElement('button');
-    deleteBtn.type = 'button';
-    deleteBtn.className = 'btn btn-sm btn-error';
-    deleteBtn.textContent = 'X';
 
-    deleteBtn.addEventListener('click', () => {
-      removeFollower(follower.id);
-      render();
-    });
+  const deleteBtn = document.createElement('button');
+  deleteBtn.type = 'button';
+  deleteBtn.className = 'btn btn-xs btn-error';
+  deleteBtn.innerHTML = '<i class="bi bi-trash3"></i>';
 
-  item.append(label, editBtn, deleteBtn);
-  return item;
+  deleteBtn.addEventListener('click', () => {
+    removeFollower(follower.id);
+    render();
+  });
+
+    const card = document.createElement('div');
+    card.className = 'card bg-base-200 shadow-md w-full';
+
+    card.innerHTML=`
+    <li class="max-w-200 rounded-2xl">
+      <div>
+          <h2 class="text-lg font-bold p-2 border border-base-300 flex items-center">
+            <img src="${skin?.imageUrl ?? ''}" alt="${skin?.name ?? ''}" title="${skin?.description ?? ''}" class="w-15 h-15 m-2" />
+            <span class="m-2">${follower.name} ~ Lv ${follower.level}</span>
+            <div class="card-actions"></div>
+          </h2>
+          <div class="flex flex-row border border-base-300">
+            <div class="flex flex-col w-full h-full">
+              <img src="${outfit?.imageUrl ?? ''}" alt="${outfit?.name ?? ''}" title="${outfit?.description ?? ''}" class="w-full h-full object-contain p-4" />
+              <span class="text-center text-xs p-4">${outfit?.name ?? ''}</span>
+            </div>
+            <div class="flex flex-col w-full h-full">
+              <img src="${necklace?.imageUrl ?? ''}" alt="${necklace?.name ?? ''}" title="${necklace?.description ?? ''}" class="w-30 h-30 object-contain border border-base-300 p-4" />
+              <span class="text-center text-xs p-4">${necklace?.name ?? ''}</span>
+            </div>
+            <div class="flex flex-col w-full h-full">
+              <img src="${demon?.imageUrl ?? ''}" alt="${demon?.name ?? ''}" title="${demon?.description ?? ''}" class="w-30 h-30 object-contain border border-base-300 p-4" />
+              <span class="text-center text-xs p-4">${demon?.name}</span>
+            </div>
+          </div>
+          <div class="flex max-w-full">
+            <div class="card-status flex gap-2 text-lg"></div>
+
+          </div>
+      </div>
+    </li>
+    `
+    card.querySelector('.card-actions')!.append(editBtn, deleteBtn);
+    const status = card.querySelector('.card-status')!;
+if (follower.isMarried) status.append(statusIcon('heart-fill', 'Married'));
+if (follower.isFavorite) status.append(statusIcon('star-fill', 'Favorite'));
+if (follower.isDead) status.append(statusIcon('emoji-dizzy-fill', 'Dead'));
+
+  return card;
 }
 
 //Necklaces
@@ -150,7 +181,7 @@ editBtn.addEventListener('click', () => {
     function readNecklaceId(data: FormData): NecklaceId | null {
     const raw = String(data.get('necklaceId'));
     return isNecklaceId(raw) ? raw : null;
-}
+    }
 
 //demons
     function populateDemonSelect(): void {
@@ -235,6 +266,15 @@ function catalogImage(item: CatalogItem): HTMLImageElement {
   img.title = item.description;
   img.className = 'w-10 h-10';
   return img;
+}
+
+function statusIcon(icon: string, label: string): HTMLElement {
+  const el = document.createElement('i');
+  el.className = `bi bi-${icon}`;
+  el.title = label;
+  el.setAttribute('role', 'img');
+  el.setAttribute('aria-label', label);
+  return el;
 }
 
 addFollowerModal.addEventListener('close', () => {

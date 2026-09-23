@@ -15,6 +15,13 @@ const WIKI_IMAGES = 'https://static.wikia.nocookie.net/cult-of-the-lamb/images';
 
 export const NECKLACES = [
   {
+    id: 'none',
+    name: 'No Necklace',
+    description: '',
+    imageUrl: `${WIKI_IMAGES}/a/a1/Cult_Lamb_Flag.png/revision/latest/scale-to-width-down/26?cb=20260710065448`,
+    group: '',
+  },
+  {
     id: 'skull',
     name: 'Skull Necklace',
     description: 'Follower will live an unnaturally long life, double what would usually be expected.',
