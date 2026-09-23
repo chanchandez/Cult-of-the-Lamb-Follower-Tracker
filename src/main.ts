@@ -1,11 +1,12 @@
 import './style.css'
 import type { Follower } from './follower.def'  
-import { getFollowers, addFollower, removeFollower } from './storage/followerRepo'
+import { getFollowers, addFollower, removeFollower, updateFollower } from './storage/followerRepo'
 import { NECKLACES, isNecklaceId, type NecklaceId } from './data/necklaces';
 import { DEMONS, findDemon, isDemonId, type DemonId } from './data/demons';
 import { SKINS, findSkin, isSkinId, type SkinId } from './data/skins';
 import { OUTFITS, findOutfit, isOutfitId, type OutfitId } from './data/outfits';
 
+let editingFollowerId: string | null = null;
 const skinPicker = document.getElementById('skinPicker') as HTMLDivElement;
 const outfitPicker = document.getElementById('outfitPicker') as HTMLDivElement;
 
@@ -34,31 +35,49 @@ addFollowerForm.addEventListener('submit', (event) => {
   event.preventDefault();
   const data = new FormData(addFollowerForm);
 
-  const follower: Follower = {
-    id: crypto.randomUUID(),
-    createdAt: Date.now(),
-    role: null,
-    traits: [],
+  const values = {
     name: String(data.get('name')).trim(),
     level: Number(data.get('level')),
     skin: String(data.get('skin')).trim(),
     outfit: String(data.get('outfit')).trim(),
     necklaceId: readNecklaceId(data),
-    demonId: String(data.get('demonId')).trim() || null,
+    demonId: readDemonId(data),
     isMarried: data.has('isMarried'),
     isFavorite: data.has('isFavorite'),
     isDead: data.has('isDead'),
   };
 
-  const demon = findDemon(follower.demonId);
+  const existing = getFollowers().find((f) => f.id === editingFollowerId);
 
-  addFollower(follower);
+  if (existing) {
+    updateFollower({ ...existing, ...values });
+  } else {
+    addFollower({
+      ...values,
+      id: crypto.randomUUID(),
+      createdAt: Date.now(),
+      role: null,
+      traits: [],
+    });
+  }
+
+  editingFollowerId = null;
   addFollowerForm.reset();
   addFollowerModal.close();
   render();
-  console.log('Follower added:', follower);
-  console.log(getFollowers());
 });
+
+function fillForm(follower: Follower): void {
+  const fields = addFollowerForm.elements;
+  (fields.namedItem('name') as HTMLInputElement).value = follower.name;
+  (fields.namedItem('level') as HTMLInputElement).value = String(follower.level);
+  (fields.namedItem('skin') as RadioNodeList).value = follower.skin;
+  (fields.namedItem('outfit') as RadioNodeList).value = follower.outfit;
+  (fields.namedItem('necklaceId') as HTMLSelectElement).value = follower.necklaceId ?? '';
+  (fields.namedItem('demonId') as HTMLSelectElement).value = follower.demonId ?? '';
+  (fields.namedItem('isFavorite') as HTMLInputElement).checked = follower.isFavorite;
+  (fields.namedItem('isDead') as HTMLInputElement).checked = follower.isDead;
+}
 
 //******************************************************* */
 //*****************Render Followers*********************
@@ -97,29 +116,10 @@ const editBtn = document.createElement('button');
     editBtn.textContent = 'Edit';
 
 editBtn.addEventListener('click', () => {
-  editBtn.addEventListener('click', () => addFollowerModal.showModal());
-      // Populate the form with the follower's data
-      const followerName = document.getElementById('followername') as HTMLUListElement;
-      const followerLevel = document.getElementById('followerlevel') as HTMLUListElement;
-      const followerSkin = document.getElementById(`skinPicker`) as HTMLInputElement;
-      const followerOutfit = document.getElementById('followeroutfit') as HTMLUListElement;
-      const followerNecklace = document.getElementById('necklaceSelect') as HTMLSelectElement;
-      const followerDemon = document.getElementById('demonSelect') as HTMLSelectElement;
-      const isMarriedCheckbox = document.getElementById('isMarried') as HTMLInputElement;
-      const isFavoriteCheckbox = document.getElementById('isFavorite') as HTMLInputElement;
-      const isDeadCheckbox = document.getElementById('isDead') as HTMLInputElement;
-
-      followerName.value = follower.name;
-      followerLevel.value = follower.level.toString();
-      followerSkin.value = follower.skin;
-      followerOutfit.value = follower.outfit;
-      followerNecklace.value = follower.necklaceId || '';
-      followerDemon.value = follower.demonId || '';
-      isMarriedCheckbox.checked = follower.isMarried;
-      isFavoriteCheckbox.checked = follower.isFavorite;
-      isDeadCheckbox.checked = follower.isDead;
-      
-    });
+  editingFollowerId = follower.id;
+  fillForm(follower);
+  addFollowerModal.showModal();
+});
 
 
 
@@ -236,6 +236,11 @@ function catalogImage(item: CatalogItem): HTMLImageElement {
   img.className = 'w-10 h-10';
   return img;
 }
+
+addFollowerModal.addEventListener('close', () => {
+  editingFollowerId = null;
+  addFollowerForm.reset();
+});
 
 populateOutfitPicker();
 populateSkinPicker();
